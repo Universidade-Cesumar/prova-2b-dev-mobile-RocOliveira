@@ -1,7 +1,16 @@
    module.exports = {
-     preset: 'jest-expo',
+    testEnvironment: 'jsdom',
+    transform: {
+      '^.+\\.js$': 'babel-jest',
+    },
+      modulePathIgnorePatterns: ['<rootDir>/sysalmoxarifado/'],
+     moduleNameMapper: {
+       '^expo($|/.*)': '<rootDir>/__mocks__/expo.js',
+       '^expo-modules-core($|/.*)': '<rootDir>/__mocks__/expo-modules-core.js'
+     },
      transformIgnorePatterns: [
-       'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
+       'node_modules/(?!((jest-)?react-native|@react-native(-community)?))',
      ],
-     setupFilesAfterEnv: ["@testing-library/react-native/extend-expect"]
+    setupFiles: ["<rootDir>/jest.setup.js"],
+    setupFilesAfterEnv: ["@testing-library/jest-native/extend-expect"]
    };

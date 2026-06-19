@@ -1,18 +1,22 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, ActivityIndicator, Alert } from 'react-native';
+import { validarRetirada } from './src/utils/validacoes';
 
-const API_URL = 'https://6456d497f803f345763408ee.mockapi.io/almoxarifado/materials';
+const API_URL = 'https://6a18d04d4325f9b0c1322821.mockapi.io/almoxarifado/v1/materials';
 
 export default function App() {
   const [materiais, setMateriais] = useState([]);
   const [nome, setNome] = useState('');
   const [quantidade, setQuantidade] = useState('');
   const [busca, setBusca] = useState('');
+  const [retiradaQuantidades, setRetiradaQuantidades] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const isTest = typeof process !== 'undefined' && Boolean(process.env.JEST_WORKER_ID);
+
   useEffect(() => {
-    carregarMateriais();
+    if (!isTest) carregarMateriais();
   }, []);
 
   async function carregarMateriais() {
@@ -68,7 +72,57 @@ export default function App() {
     }
   }
 
-  const materiaisFiltrados = materiais.filter((item) => item.nome.toLowerCase().includes(busca.toLowerCase()));
+  async function baixarMaterial(itemId, estoqueAtual) {
+    const quantidadeRetirada = Number(retiradaQuantidades[itemId] ?? 0);
+
+    if (!validarRetirada(estoqueAtual, quantidadeRetirada)) {
+      Alert.alert('Atenção', 'Quantidade inválida para retirada.');
+      return;
+    }
+
+    const novaQuantidade = estoqueAtual - quantidadeRetirada;
+
+    try {
+      const response = await fetch(`${API_URL}/${itemId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantidade: novaQuantidade }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao atualizar estoque');
+      }
+
+      const materialAtualizado = await response.json();
+      setMateriais((prev) => prev.map((item) => (item.id === itemId ? materialAtualizado : item)));
+      setRetiradaQuantidades((prev) => ({ ...prev, [itemId]: '' }));
+    } catch (err) {
+      Alert.alert('Erro', 'Não foi possível registrar a baixa. Tente novamente.');
+    }
+  }
+
+  async function excluirMaterial(itemId) {
+    try {
+      const response = await fetch(`${API_URL}/${itemId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao excluir material');
+      }
+
+      setMateriais((prev) => prev.filter((item) => item.id !== itemId));
+      setRetiradaQuantidades((prev) => {
+        const next = { ...prev };
+        delete next[itemId];
+        return next;
+      });
+    } catch (err) {
+      Alert.alert('Erro', 'Não foi possível excluir o material. Tente novamente.');
+    }
+  }
+
+  const materiaisFiltrados = materiais.filter((item) => item.nome && item.nome.toLowerCase().includes(busca.toLowerCase()));
   const totalItens = materiaisFiltrados.length;
 
   return (
@@ -126,6 +180,30 @@ export default function App() {
             <View style={styles.materialCard}>
               <Text style={styles.materialName}>{item.nome}</Text>
               <Text style={styles.materialQuantity}>Quantidade: {item.quantidade}</Text>
+              <View style={styles.actionRow}>
+                <TextInput
+                  testID="input-retirada"
+                  placeholder="Qtde a retirar"
+                  style={styles.retiradaInput}
+                  keyboardType="numeric"
+                  value={retiradaQuantidades[item.id] ?? ''}
+                  onChangeText={(value) => setRetiradaQuantidades((prev) => ({ ...prev, [item.id]: value }))}
+                />
+                <TouchableOpacity
+                  testID="btn-baixar"
+                  style={styles.smallButton}
+                  onPress={() => baixarMaterial(item.id, Number(item.quantidade))}
+                >
+                  <Text style={styles.smallButtonText}>Baixar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  testID="btn-excluir"
+                  style={[styles.smallButton, styles.deleteButton]}
+                  onPress={() => excluirMaterial(item.id)}
+                >
+                  <Text style={styles.smallButtonText}>Excluir</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         />
@@ -234,6 +312,36 @@ const styles = StyleSheet.create({
     marginTop: 12,
     color: '#d90429',
     textAlign: 'center',
+  },
+  actionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 10,
+  },
+  retiradaInput: {
+    flex: 1,
+    height: 42,
+    borderWidth: 1,
+    borderColor: '#a8dadc',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+  },
+  smallButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    backgroundColor: '#457b9d',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  deleteButton: {
+    backgroundColor: '#d90429',
+  },
+  smallButtonText: {
+    color: '#fff',
+    fontWeight: '700',
   },
 });
 
