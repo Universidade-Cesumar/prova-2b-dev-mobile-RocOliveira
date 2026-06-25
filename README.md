@@ -78,6 +78,10 @@ Depois, referencie as imagens no README:
 - Repositorio GitHub publicado com historico de commits por sprint
 - Postagem no LinkedIn descrevendo a evolucao do projeto, desafios e aprendizados
 
+## Documentacao de Git
+
+Consulte o guia completo de versionamento em `DOCUMENTACAO_GIT.md`.
+
 ## Observacoes
 
 - A URL da API pode ser ajustada em `App.js`.
