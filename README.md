@@ -99,6 +99,22 @@ npm start
 npm test
 ```
 
+## Screenshots do Aplicativo Funcionando
+
+Para atender ao criterio de entrega, inclua as capturas de tela reais da aplicacao em execucao na pasta `screenshots/` e mantenha os nomes abaixo:
+
+- `screenshots/01-tela-inicial.png`
+- `screenshots/02-cadastro-material.png`
+- `screenshots/03-dashboard-busca.png`
+- `screenshots/04-estoque-critico.png`
+
+Depois de adicionar os arquivos, as imagens serao exibidas automaticamente neste README:
+
+![Tela inicial](screenshots/01-tela-inicial.png)
+![Cadastro de material](screenshots/02-cadastro-material.png)
+![Dashboard com busca](screenshots/03-dashboard-busca.png)
+![Indicador de estoque critico](screenshots/04-estoque-critico.png)
+
 ## Documentacao de Git
 
 Consulte o guia completo de versionamento em `DOCUMENTACAO_GIT.md`.
