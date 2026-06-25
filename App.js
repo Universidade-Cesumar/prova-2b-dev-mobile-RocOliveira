@@ -29,6 +29,7 @@ export default function App() {
       setMateriais(data || []);
     } catch (err) {
       setError('Não foi possível carregar os materiais. Verifique sua conexão.');
+      Alert.alert('Erro de conexão', 'Não foi possível carregar os materiais. Verifique sua internet e tente novamente.');
       setMateriais([]);
     } finally {
       setLoading(false);
@@ -177,7 +178,13 @@ export default function App() {
           contentContainerStyle={styles.listContainer}
           ListEmptyComponent={() => <Text style={styles.emptyText}>Nenhum material encontrado.</Text>}
           renderItem={({ item }) => (
-            <View style={styles.materialCard}>
+            <View
+              style={[
+                styles.materialCard,
+                Number(item.quantidade) < 10 ? styles.materialCardCritico : null,
+              ]}
+              accessibilityLabel={Number(item.quantidade) < 10 ? 'estoque-critico' : undefined}
+            >
               <Text style={styles.materialName}>{item.nome}</Text>
               <Text style={styles.materialQuantity}>Quantidade: {item.quantidade}</Text>
               <View style={styles.actionRow}>
@@ -292,6 +299,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 10,
     elevation: 2,
+  },
+  materialCardCritico: {
+    backgroundColor: '#ffe5e5',
+    borderWidth: 1,
+    borderColor: '#d90429',
   },
   materialName: {
     fontSize: 16,
