@@ -1,42 +1,84 @@
 ﻿# Almoxarifado de Enfermagem
 
-Projeto em React Native / Expo para controlar o estoque de materiais de enfermagem. A aplicação exibe uma lista de materiais, permite o cadastro de novos insumos e pesquisa por nome, consumindo uma API MockAPI.
+Aplicativo mobile em React Native com Expo para controle de materiais de enfermagem.
 
-## Tecnologias usadas
+## Entrega Sprint 3
+
+Implementacoes solicitadas:
+
+- Filtro de pesquisa em tempo real com `testID="input-busca"`
+- Dashboard com totalizador com `testID="total-itens"`
+- Indicador visual de estoque critico para materiais com quantidade menor que 10
+- Aplicacao de `accessibilityLabel="estoque-critico"` no card em situacao critica
+- Tratamento de erros de rede com `try/catch` e alertas amigaveis na interface
+
+## Tecnologias
 
 - React Native
 - Expo
 - JavaScript
-- MockAPI para backend fake
-- Jest + @testing-library/react-native para testes automatizados
+- MockAPI
+- Jest e Testing Library React Native
 
-## Funcionalidades implementadas
+## Contrato Tecnico Obrigatorio
 
-- Listagem de materiais com `FlatList` e `testID="lista-materials"`
-- Formulário de cadastro com `TextInput` para nome (`testID="input-nome"`) e quantidade (`testID="input-quantidade"`)
-- Botão de cadastrar com `testID="btn-cadastrar"`
-- Campo de busca com `testID="input-busca"`
-- Totalizador de itens com `testID="total-itens"`
-- Validação de quantidade inteira positiva
-- Consumo de API MockAPI para carga e cadastro de materiais
+- `input-nome`
+- `input-quantidade`
+- `btn-cadastrar`
+- `lista-materials`
+- `input-busca`
+- `total-itens`
+- `accessibilityLabel="estoque-critico"` quando quantidade < 10
 
-## Como rodar
+## Como Executar (Expo Go)
 
-1. Instale as dependências:
+1. Instale as dependencias:
 
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
-2. Inicie o Expo:
+2. Inicie o projeto:
 
 ```bash
 npm start
 ```
 
-3. Abra no emulador ou no aplicativo Expo Go pelo QR Code.
+3. Abra no Expo Go:
 
-## Observações
+- Android: leia o QR Code com o app Expo Go
+- iOS: leia o QR Code com a camera e abra no Expo Go
 
-- O projeto utiliza a propriedade `testID` conforme regras do contrato técnico.
-- A URL do MockAPI está configurada em `App.js`. Caso seja necessário, substitua por sua própria rota do MockAPI.
+## Testes
+
+```bash
+npm test
+```
+
+## Screenshots
+
+Crie a pasta `screenshots/` e adicione capturas da aplicacao em execucao:
+
+- `screenshots/tela-inicial.png`
+- `screenshots/filtro-busca.png`
+- `screenshots/estoque-critico.png`
+- `screenshots/cadastro-material.png`
+
+Depois, referencie as imagens no README:
+
+```md
+![Tela inicial](screenshots/tela-inicial.png)
+![Filtro de busca](screenshots/filtro-busca.png)
+![Estoque critico](screenshots/estoque-critico.png)
+![Cadastro de material](screenshots/cadastro-material.png)
+```
+
+## Publicacao
+
+- Repositorio GitHub publicado com historico de commits por sprint
+- Postagem no LinkedIn descrevendo a evolucao do projeto, desafios e aprendizados
+
+## Observacoes
+
+- A URL da API pode ser ajustada em `App.js`.
+- Em falhas de conexao, o app exibe mensagem amigavel e continua estavel.
