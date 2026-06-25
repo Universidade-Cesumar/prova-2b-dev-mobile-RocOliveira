@@ -124,14 +124,21 @@ export default function App() {
   }
 
   const materiaisFiltrados = materiais.filter((item) => item.nome && item.nome.toLowerCase().includes(busca.toLowerCase()));
+  const materiaisCriticos = materiaisFiltrados.filter((item) => Number(item.quantidade) < 10).length;
+  const volumeTotal = materiaisFiltrados.reduce((total, item) => total + Number(item.quantidade || 0), 0);
   const totalItens = materiaisFiltrados.length;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Almoxarifado - Enfermagem</Text>
-      <Text style={styles.description}>
-        Controle simples de estoque de materiais de enfermagem. Cadastre novos insumos e consulte o inventário atual.
-      </Text>
+      <View style={styles.heroHeader}>
+        <View style={styles.heroBadge}>
+          <Text style={styles.heroBadgeText}>PAINEL DE CONTROLE</Text>
+        </View>
+        <Text style={styles.title}>Almoxarifado Enfermagem</Text>
+        <Text style={styles.description}>
+          Controle de estoque com foco em agilidade, segurança e visibilidade dos insumos em tempo real.
+        </Text>
+      </View>
 
       <View style={styles.formRow}>
         <TextInput
@@ -156,6 +163,26 @@ export default function App() {
       </TouchableOpacity>
 
       <View style={styles.dashboard}>
+        <View style={styles.dashboardHeaderCard}>
+          <Text style={styles.dashboardHeaderTitle}>Painel do Estoque</Text>
+          <Text style={styles.dashboardHeaderSubtitle}>Visão rápida dos materiais filtrados</Text>
+        </View>
+
+        <View style={styles.statsGrid}>
+          <View style={[styles.statCard, styles.statCardPrimary]}>
+            <Text style={styles.statLabel}>Itens exibidos</Text>
+            <Text style={styles.statValue}>{totalItens}</Text>
+          </View>
+          <View style={[styles.statCard, styles.statCardAlert]}>
+            <Text style={styles.statLabel}>Estoque crítico</Text>
+            <Text style={styles.statValue}>{materiaisCriticos}</Text>
+          </View>
+          <View style={[styles.statCard, styles.statCardNeutral]}>
+            <Text style={styles.statLabel}>Volume total</Text>
+            <Text style={styles.statValue}>{volumeTotal}</Text>
+          </View>
+        </View>
+
         <TextInput
           testID="input-busca"
           placeholder="Buscar material"
@@ -228,19 +255,43 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 20,
   },
+  heroHeader: {
+    backgroundColor: '#e9f3ff',
+    borderRadius: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#c9def5',
+  },
+  heroBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#1d3557',
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    marginBottom: 8,
+  },
+  heroBadgeText: {
+    color: '#fff',
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.6,
+  },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
+    fontSize: 30,
+    fontWeight: '800',
+    textAlign: 'left',
+    marginBottom: 6,
     color: '#1d3557',
+    letterSpacing: 0.4,
   },
   description: {
     fontSize: 14,
     color: '#4f5d75',
-    textAlign: 'center',
+    textAlign: 'left',
     lineHeight: 20,
-    marginBottom: 20,
+    marginBottom: 2,
   },
   formRow: {
     flexDirection: 'row',
@@ -272,6 +323,52 @@ const styles = StyleSheet.create({
   },
   dashboard: {
     marginBottom: 16,
+  },
+  dashboardHeaderCard: {
+    backgroundColor: '#1d3557',
+    borderRadius: 14,
+    padding: 14,
+    marginBottom: 10,
+  },
+  dashboardHeaderTitle: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  dashboardHeaderSubtitle: {
+    color: '#d9e4f2',
+    marginTop: 4,
+    fontSize: 13,
+  },
+  statsGrid: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 10,
+  },
+  statCard: {
+    flex: 1,
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+  },
+  statCardPrimary: {
+    backgroundColor: '#d7ecff',
+  },
+  statCardAlert: {
+    backgroundColor: '#ffe5e5',
+  },
+  statCardNeutral: {
+    backgroundColor: '#eaf4f4',
+  },
+  statLabel: {
+    fontSize: 12,
+    color: '#2f3e53',
+    marginBottom: 4,
+  },
+  statValue: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#1d3557',
   },
   searchInput: {
     height: 48,
