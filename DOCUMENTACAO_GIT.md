@@ -44,7 +44,7 @@ git status
 git diff
 ```
 
-### Commit granular (exemplos)
+### Commit (exemplos)
 
 ```bash
 git add App.js
@@ -94,7 +94,6 @@ Use prefixos semanticos:
 - feat: nova funcionalidade
 - fix: correcao de bug
 - docs: documentacao
-- chore: manutencao/infra
 - test: testes
 - refactor: refatoracao sem alterar regra de negocio
 
@@ -108,11 +107,4 @@ Exemplos:
 
 - Projeto executa com `npm start`
 - Testes passam com `npm test --silent`
-- Commits estao granulares e descritivos
-- Arquivos temporarios locais nao foram commitados
 
-## 10. Arquivos que nao devem ir para commit
-
-- Logs locais em `.expo/dev/logs/`
-- Artefatos temporarios de editor
-- Pastas de build/cache nao versionadas

@@ -2,15 +2,52 @@
 
 Aplicativo mobile em React Native com Expo para controle de materiais de enfermagem.
 
-## Entrega Sprint 3
+## Entregas por Sprint
 
-Implementacoes solicitadas:
+### Sprint 1 - Fundacao e Inventario
+
+Implementacoes principais:
+
+- Estrutura inicial do app em React Native com Expo
+- Cadastro de materiais com nome e quantidade
+- Lista de materiais com `FlatList`
+- Contrato tecnico inicial atendido:
+	- `input-nome`
+	- `input-quantidade`
+	- `btn-cadastrar`
+	- `lista-materials`
+
+Evidencias de validacao:
+
+- Testes da sprint 1 em `__tests__/sprint1.test.js`
+
+### Sprint 2 - Validacao Logica
+
+Implementacoes principais:
+
+- Funcao de validacao de retirada em `src/utils/validacoes.js`
+- Regra de negocio para permitir retirada somente quando:
+	- quantidade > 0
+	- quantidade <= estoque
+- Integracao da regra de validacao no fluxo de baixa de materiais
+
+Evidencias de validacao:
+
+- Testes da sprint 2 em `__tests__/sprint2.test.js`
+
+### Sprint 3 - Dashboard, Alertas e Resiliencia
+
+Implementacoes principais:
 
 - Filtro de pesquisa em tempo real com `testID="input-busca"`
 - Dashboard com totalizador com `testID="total-itens"`
 - Indicador visual de estoque critico para materiais com quantidade menor que 10
 - Aplicacao de `accessibilityLabel="estoque-critico"` no card em situacao critica
 - Tratamento de erros de rede com `try/catch` e alertas amigaveis na interface
+
+Evidencias de validacao:
+
+- Testes da sprint 3 em `__tests__/sprint3.test.js`
 
 ## Tecnologias
 
@@ -29,6 +66,13 @@ Implementacoes solicitadas:
 - `input-busca`
 - `total-itens`
 - `accessibilityLabel="estoque-critico"` quando quantidade < 10
+
+## Resultado dos Testes
+
+Status atual da validacao automatizada:
+
+- 3 suites aprovadas
+- 6 testes aprovados
 
 ## Como Executar (Expo Go)
 
@@ -54,29 +98,6 @@ npm start
 ```bash
 npm test
 ```
-
-## Screenshots
-
-Crie a pasta `screenshots/` e adicione capturas da aplicacao em execucao:
-
-- `screenshots/tela-inicial.png`
-- `screenshots/filtro-busca.png`
-- `screenshots/estoque-critico.png`
-- `screenshots/cadastro-material.png`
-
-Depois, referencie as imagens no README:
-
-```md
-![Tela inicial](screenshots/tela-inicial.png)
-![Filtro de busca](screenshots/filtro-busca.png)
-![Estoque critico](screenshots/estoque-critico.png)
-![Cadastro de material](screenshots/cadastro-material.png)
-```
-
-## Publicacao
-
-- Repositorio GitHub publicado com historico de commits por sprint
-- Postagem no LinkedIn descrevendo a evolucao do projeto, desafios e aprendizados
 
 ## Documentacao de Git
 
